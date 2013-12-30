@@ -1,6 +1,6 @@
 /*
-  Variables used throughout the program
-  Any configuration should be done here.
+  Functions used throughout the program.
+  Anything that is not setup/loop/init, goes here
   
   Written 09/09/2013 - Nathan Metcalf
  */
@@ -9,7 +9,6 @@
  * Send a single cmd to the LED sign.
  * Should be quicker, and we can do some logic in here
  */
-
 void sendCmd(byte Cmd){
   // Debugging
   if(debug){
@@ -23,13 +22,16 @@ void sendCmd(byte Cmd){
   ledSign.write(Cmd);  
   digitalWrite(ctsPin, LOW);
   
+  lcd.setCursor(0,1);
+  lcd.print("Reset");
   // Turn off the LED.
   if(debug){digitalWrite(ledPin, LOW);}
 }
 
-
-// Send a Msg to the sign.
-// use { } | for colors -- Listed in loop()
+/* 
+ * Send a Msg to the sign.
+ * use { } | for colors -- Listed in loop()
+ */
 void sendMsg(String msg, int msgLen, byte action){
   
   //Setup a buffer (extra for stop bit)
@@ -84,7 +86,10 @@ void sendMsg(String msg, int msgLen, byte action){
     }
   }
   ledSign.write(stopBit);
-  digitalWrite(ctsPin, HIGH);
+  digitalWrite(ctsPin, LOW);
+
+  lcd.setCursor(0,1);
+  lcd.print("Sent");
   
   if(debug){
     Serial.println();

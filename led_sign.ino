@@ -10,6 +10,9 @@
   Written: Nathan Metcalf 09/09/13
  */
  
+// Add some funky librarys.
+// PHI_prompt is what we want for the menu's.
+
 #include "Common.h"
 #include <LiquidCrystal.h>
 #include <SoftwareSerial.h>
@@ -17,18 +20,28 @@
 
 // Init the librarys
 SoftwareSerial ledSign =  SoftwareSerial(rxPin, txPin);
-LiquidCrystal lcd(lcd_rs, lcd_rw, lcd_d1, lcd_d2, lcd_d3, lcd_d4);
+LiquidCrystal lcd(lcd_rs, lcd_en, lcd_d1, lcd_d2, lcd_d3, lcd_d4);
 
 void setup() 
 { 
-  // Setup the TX/RX Ping
+  // Setup the TX/RX Pins
   pinMode(rxPin, INPUT);
   pinMode(txPin, OUTPUT);
   pinMode(ctsPin, OUTPUT);
-  
   // Hold them low for now (Disabled)
   digitalWrite(ctsPin, LOW);
   digitalWrite(txPin, LOW);
+  
+  //Setup Buttons
+  pinMode(btn_1, INPUT);
+  pinMode(btn_2, INPUT);
+  pinMode(btn_3, INPUT);
+  pinMode(btn_4, INPUT);
+  // Use internal Pullups.
+  digitalWrite(btn_1, HIGH);
+  digitalWrite(btn_2, HIGH);
+  digitalWrite(btn_3, HIGH);
+  digitalWrite(btn_4, HIGH);
   
   // Setup the debug led, and turn it off
   pinMode(ledPin, OUTPUT);
@@ -36,6 +49,8 @@ void setup()
   
   // Setup the serial ports
   ledSign.begin(9600);
+  // Setup LCD
+  lcd.begin(16,2);
     
   if(debug){
     Serial.begin(115200);
@@ -45,8 +60,10 @@ void setup()
       delay(500);
       digitalWrite(ledPin, LOW);
     }
+    lcd.print("Setup...");
     Serial.println("Startup complete...");
   }
+
   
 } 
 
@@ -55,12 +72,31 @@ void loop()
     // Red   = {
     // Green = |
     // Yellow= }
-
-    String Message1 = "[** ARDUINO **";
-    sendMsg(Message1, Message1.length(), cmdJump);
-    delay(5000);
+    String Message = "Startup Message";
     
-    String Message = "|-= {Nothing }Importent |Just {Testing }Scrolling }/  |Colors } =-";
-    sendMsg(Message, Message.length(), cmdScrollltr);
-    delay(14000);
+    while(1){
+      if(digitalRead(btn_1) == LOW){
+        String Message = "{ONE ONE ONE";      
+        sendMsg(Message, Message.length(), cmdJump);
+        lcd.setCursor(0,0);
+        lcd.print(Message);
+      }else if(digitalRead(btn_2) == LOW){
+        String Message = "}TWO TWO TWO";
+        sendMsg(Message, Message.length(), cmdJump);    
+        lcd.setCursor(0,0);
+        lcd.print(Message);
+      }else if(digitalRead(btn_3) == LOW){
+        String Message = "|THREE THREE THREE";
+        sendMsg(Message, Message.length(), cmdJump);
+        lcd.setCursor(0,0);
+        lcd.print(Message);  
+      }else if(digitalRead(btn_4) == LOW){
+        String Message = "[FOUR FOUR FOUR";
+        sendMsg(Message, Message.length(), cmdJump);
+        lcd.setCursor(0,0);
+        lcd.print(Message);
+      }  
+      delay(10);
+          
+    }
 }

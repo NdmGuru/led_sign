@@ -3,7 +3,6 @@
   Any configuration should be done here.
   
   Written 09/09/2013 - Nathan Metcalf
-  
  */
 
 /* 
@@ -11,26 +10,36 @@
  * Not all these are used, depending
  * on the chip, you may need RTS/CTS
  */
-#define rtsPin  2
+// rx
+// rciweve/transmitt
+// tx
+#define rxPin   2
 #define ctsPin  3
-#define dtrPin  4
-#define rxPin   10
-#define txPin   11
+#define txPin   4
 
 /*
  * Notification LED Pins
  */
-#define ledPin  13
+#define ledPin  99
 
 /*
  * LCD Pins
  */
-#define lcd_rs 11
-#define lcd_rw 12
-#define lcd_d1 10
+#define lcd_d1 8
 #define lcd_d2 9
-#define lcd_d3 8
-#define lcd_d4 7
+#define lcd_d3 10
+#define lcd_d4 11
+#define lcd_rs 12
+#define lcd_en 13
+
+/*
+ * Buttons
+ */
+#define btn_1 A3
+#define btn_2 A2
+#define btn_3 A1
+#define btn_4 A0
+ 
 
 /*
  * System bits/password
