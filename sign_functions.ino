@@ -89,7 +89,7 @@ void sendMsg(String msg, int msgLen, byte action){
   digitalWrite(ctsPin, LOW);
 
   lcd.setCursor(0,1);
-  lcd.print("Sent");
+  lcd.print("Sent MSG!");
   
   if(debug){
     Serial.println();
